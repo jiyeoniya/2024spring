@@ -1,5 +1,5 @@
 import time
-
+import heapq
 # 计算逆序数
 def count_inversions(arr):
     inversions = 0
@@ -37,15 +37,15 @@ def move(state, direction):
 
 
 # A*算法
+# A*算法
 def astar(start):
     directions = ['u', 'd', 'l', 'r']
     pq = []
-    pq.append((heuristic(start), start, '', 0))
+    heapq.heappush(pq, (heuristic(start), start, '', 0))
     visited = set()
 
     while pq:
-        pq.sort()  # Sort based on the first element of the tuple (priority)
-        _, state, path, cost = pq.pop(0)
+        _, state, path, cost = heapq.heappop(pq)
         if state == '12345678x':
             return path
 
@@ -58,7 +58,7 @@ def astar(start):
             new_state = move(state, direction)
             if new_state not in visited:
                 new_cost = cost + 1
-                pq.append((new_cost + heuristic(new_state), new_state, path + direction, new_cost))
+                heapq.heappush(pq, (new_cost + heuristic(new_state), new_state, path + direction, new_cost))
 
     return "unsolvable"
 
